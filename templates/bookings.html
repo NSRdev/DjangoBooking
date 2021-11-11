@@ -1,0 +1,28 @@
+{% include 'base.html' %}
+
+{% block content %}
+    <div class="container my-5">
+        <h1>Bookings</h1>
+        <button class="btn btn-info btn-lg">Book now!</button>
+        <div class="row my-5">
+            {% for booking in bookings %}
+                <div class="col-md-3 my-5">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ booking.room.name }} room</h5>
+                            <p class="card-text">Number of guests: {{ booking.guests }}</p>
+                            <p class="card-text">Price {{ booking.total_price }}€</p>
+                            <a href="#" class="card-link">
+                                <img src="/media/info.png" width="24" height="24" class="d-inline-block align-top" alt="booking icon" style="float: right">
+                            </a>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">From {{ booking.date_from|date:"d/m/Y" }}</li>
+                            <li class="list-group-item">To {{ booking.date_until|date:"d/m/Y" }}</li>
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

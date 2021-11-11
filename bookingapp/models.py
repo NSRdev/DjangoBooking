@@ -10,7 +10,7 @@ class Room(models.Model):
     price = models.DecimalField(max_digits=7, decimal_places=2)
 
     def __str__(self):
-        return self.name + " | " + str(self.price) + "€/día"
+        return self.name + " | " + str(self.price) + "€/day"
 
 
 class Booking(models.Model):
