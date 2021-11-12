@@ -3,14 +3,23 @@ import uuid
 
 
 # Create your models here.
-class Room(models.Model):
+class RoomType(models.Model):
     name = models.CharField(max_length=20)
     size = models.IntegerField()
-    quantity = models.IntegerField()
-    price = models.DecimalField(max_digits=7, decimal_places=2)
 
     def __str__(self):
-        return self.name + " | " + str(self.price) + "€/day"
+        return "Name: " + self.name + " | Size: " + str(self.size)
+
+
+class Room(models.Model):
+    name = models.CharField(max_length=20)
+    description = models.CharField(max_length=120)
+    type = models.ForeignKey(RoomType, on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=7, decimal_places=2)
+    number = models.IntegerField()
+
+    def __str__(self):
+        return "Name: " + str(self.name) + " | Type: " + self.type.name
 
 
 class Booking(models.Model):
@@ -18,7 +27,7 @@ class Booking(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     guests = models.IntegerField()
     date_from = models.DateField()
-    date_until = models.DateField()
+    date_to = models.DateField()
     contact_name = models.CharField(max_length=40)
     contact_email = models.EmailField(max_length=40)
     contact_phone = models.CharField(max_length=9)
@@ -26,4 +35,4 @@ class Booking(models.Model):
     total_price = models.DecimalField(max_digits=7, decimal_places=2)
 
     def __str__(self):
-        return self.room.name + " | " + str(self.date_from) + " // " + str(self.date_until) + " | " + self.contact_name
+        return self.room.name + " | " + str(self.date_from) + " // " + str(self.date_to) + " | " + self.contact_name
