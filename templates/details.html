@@ -1,0 +1,76 @@
+{% include 'base.html' %}
+
+{% block content %}
+    <div class="container my-5">
+        <h1 class="display-4 mb-5">Your reservation</h1>
+        <p class="lead">Booking details</p>
+        <table class="table mb-5">
+            <thead style="border-color: #7a50f4; background-color: #7a50f4; color: white">
+                <tr>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Guests</th>
+                    <th>Final price</th>
+                    <th>Locator</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ booking.date_from }}</td>
+                    <td>{{ booking.date_to }}</td>
+                    <td>{{ booking.guests }}</td>
+                    <td>{{ booking.total_price }}€</td>
+                    <td>{{ booking.uuid }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="lead">Room details</p>
+        <table class="table mb-5">
+            <thead style="border-color: #7a50f4; background-color: #7a50f4; color: white">
+                <tr>
+                    <th>Number</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Size</th>
+                    <th>Price/night</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ booking.room.number }}</td>
+                    <td>{{ booking.room.name }}</td>
+                    <td>{{ booking.room.type.name }}</td>
+                    <td>{{ booking.room.description }}</td>
+                    <td>{{ booking.room.type.size }}</td>
+                    <td>{{ booking.room.price }}€</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="lead">Contact details</p>
+        <table class="table mb-5">
+            <thead style="border-color: #7a50f4; background-color: #7a50f4; color: white">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ booking.contact_name }}</td>
+                    <td>{{ booking.contact_email }}</td>
+                    <td>{{ booking.contact_phone }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="text-center">
+            <a href="{% url 'delete' booking.id %}" class="btn btn-danger " style="width: 50%">
+                <i class="fas fa-trash-alt"></i> Remove reservation
+            </a>
+        </div>
+    </div>
+{% endblock %}

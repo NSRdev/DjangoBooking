@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bookingapp',
-    'crispy_forms',
+    'fontawesomefree'
 ]
 
 MIDDLEWARE = [
@@ -68,6 +68,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'djangobooking.wsgi.application'
 

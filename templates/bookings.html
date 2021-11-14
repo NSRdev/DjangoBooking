@@ -2,25 +2,37 @@
 
 {% block content %}
     <div class="container my-5">
-        <h1>Your bookings</h1>
-        <a href="{% url 'book' %}" class="btn btn-info btn-lg">Book now!</a>
-        <div class="row my-5">
+        <div class="row">
+            <div class="col-lg-8 mb-5">
+                <h1 class="display-3">Your bookings</h1>
+                <p class="lead">Review your reservations or plan a new break</p>
+            </div>
+            <div class="col-lg-4 mb-5" style="align-items: center; display: flex">
+                <a href="{% url 'search' %}" class="btn btn-success btn-lg" style="width: 100%; background-color: #7a50f4; border-color: #7a50f4">Book now!</a>
+            </div>
+        </div>
+        {% for message in messages %}
+            <div class="container-fluid p-0">
+                <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert" >
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                {{ message }}
+                </div>
+            </div>
+        {% endfor %}
+        <div class="row mb-5">
             {% for booking in bookings %}
-                <div class="col-md-3 my-5">
+                <div class="col-lg-4 mb-5">
                     <div class="card shadow">
                         <div class="card-body">
                             <h5 class="card-title">{{ booking.room.name }} room</h5>
-                            <p class="card-text">Number of guests: {{ booking.guests }}</p>
-                            <p class="card-text">Type: {{ booking.room.type.name }}</p>
-                            <p class="card-text">Price: {{ booking.total_price }}€</p>
-                            <a href="#" class="card-link">
-                                <img src="/media/info.png" width="24" height="24" class="d-inline-block align-top" alt="booking icon" style="float: right">
+                            <p class="card-text">From {{ booking.date_from|date:"d/m/Y" }}</p>
+                            <p class="card-text">To {{ booking.date_to|date:"d/m/Y" }}</p>
+                            <a href="{% url 'details' booking.id %}" class="btn float-right">
+                                <i class="fas fa-2x fa-info-circle" style="color: #3bc4c0"></i>
                             </a>
                         </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">From {{ booking.date_from|date:"d/m/Y" }}</li>
-                            <li class="list-group-item">To {{ booking.date_from|date:"d/m/Y" }}</li>
-                        </ul>
                     </div>
                 </div>
             {% endfor %}

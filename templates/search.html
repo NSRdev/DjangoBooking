@@ -2,13 +2,14 @@
 
 {% block content %}
     <div class="container my-5">
-        <h1>Book now!</h1>
-        <h6>When and with whom do you want to travel?</h6>
+        <h1 class="display-4">Book now!</h1>
+        <p class="lead">Choose when and with whom. We do everything else</p>
+
         <div class="form-group my-5">
-            <form method="POST" action="{% url 'book' %}"> {% csrf_token %}
+            <form method="POST" action="{% url 'select' %}"> {% csrf_token %}
                 {{ book_form.as_p }}
                 <div class="text-center">
-                    <input type="submit" value="Search" class="btn btn-success btn-lg mt-4" style="width: 25%" >
+                    <input type="submit" value="Search" class="btn btn-success btn-lg mt-4" style="width: 25%; border-color: #7a50f4; background: #7a50f4" >
                 </div>
             </form>
         </div>

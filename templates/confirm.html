@@ -1,0 +1,50 @@
+{% include 'base.html' %}
+
+{% block content %}
+    <div class="container my-5">
+        <h1 class="display-4">Confirm reservation</h1>
+        <p class="lead">Almost there!</p>
+        <div class="row my-5">
+            <div class="col-lg mb-5">
+                <p class="lead">Your reservation</p>
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-title lead"><strong>Room {{ room.number }}: {{ room.name }}</strong></p>
+                        <p class="card-text">{{ room.description }}</p>
+                        <p class="card-text"><i class="fas fa-calendar" style="color: #3bc4c0"></i>
+                            From {{ request.session.date_from }} to {{ request.session.date_to }}
+                            {% if request.session.duration > 1 %}
+                                ({{ request.session.duration }} nights)
+                            {% else %}
+                                ({{ request.session.duration }} night)
+                            {% endif %}
+
+                        </p>
+                        <p class="card-text"><i class="fas fa-bed" style="color: #3bc4c0"></i> {{ room.type.name }}</p>
+                        <p class="card-text"><i class="fas fa-users" style="color: #3bc4c0"></i>
+                            {% if request.session.guests > 1 %}
+                                {{ request.session.guests }} guests
+                            {% else %}
+                                {{ request.session.guests }} guest
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <p class="card-text">Final price: <strong>{{ request.session.total_price }}€</strong></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg mb-5">
+                <p class="lead">Personal information</p>
+                <div class="form-group">
+                    <form method="POST" action="{% url 'save' %}"> {% csrf_token %}
+                        {{ confirmation_form.as_p }}
+                        <div class="text-center">
+                            <input type="submit" value="Confirm" class="btn btn-primary btn-lg mt-4" style="width: 50%; border-color: #7a50f4; background-color: #7a50f4" >
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
