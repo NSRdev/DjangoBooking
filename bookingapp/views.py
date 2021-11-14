@@ -50,8 +50,8 @@ def select_view(request):
             guests = request.session["guests"] = book_form.cleaned_data["guests"]
 
             booked_rooms = Booking.objects.filter(
-                Q(date_from__range=[date_from, date_to]) |
-                Q(date_to__range=[date_from, date_to])
+                date_from__lt=date_to,
+                date_to__gt=date_from
             )
 
             booked_rooms_id = booked_rooms.values_list('room_id')
@@ -61,8 +61,7 @@ def select_view(request):
             )
 
             context = {
-                "available_rooms": available_rooms,
-                "booked_rooms": booked_rooms,
+                "available_rooms": available_rooms
             }
             return render(request, 'select.html', context)
     else:

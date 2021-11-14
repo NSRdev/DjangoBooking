@@ -2,37 +2,55 @@
 
 {% block content %}
     <div class="container my-5">
-        <h1 class="display-4">{{ available_rooms.count }} available rooms</h1>
-        <p class="lead">Your room is waiting for you...</p>
+        {% if available_rooms %}
+            <h1 class="display-4">{{ available_rooms.count }} available rooms</h1>
+            <p class="lead">Your room is waiting for you...</p>
+        {% else %}
+            <h1 class="display-4">0 available rooms</h1>
+        {% endif %}
 
-        <div class="card my-5">
-            <div class="card-body">
-                <p class="card-text">From {{ request.session.date_from }} to {{ request.session.date_to }}</p>
-                <p class="card-text">{{ request.session.guests }} guests</p>
+        <table class="table my-5">
+            <thead>
+                <tr>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Guests</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ request.session.date_from }}</td>
+                    <td>{{ request.session.date_to }}</td>
+                    <td>{{ request.session.guests }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        {% if available_rooms %}
+            <div class="row my-5">
+                {% for available_room in available_rooms %}
+                    <div class="col-lg-4 mb-5">
+                        <form method="POST" action="{% url 'confirm' %}">{% csrf_token %}
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <p class="card-title lead"><strong>{{ available_room.name }} room</strong></p>
+                                    <p class="card-text">{{ available_room.description }}</p>
+                                    <p class="card-text"><i class="fas fa-door-closed" style="color: #3bc4c0"></i> No. {{ available_room.number }}</p>
+                                    <p class="card-text"><i class="fas fa-bed" style="color: #3bc4c0"></i> {{ available_room.type.name }}</p>
+                                    <p class="card-text"><i class="fas fa-users" style="color: #3bc4c0"></i> {{ available_room.type.size }}</p>
+                                    <p class="card-text"><i class="far fa-credit-card" style="color: #3bc4c0"></i> {{ available_room.price }}€ / night</p>
+                                </div>
+                                <div class="card-footer">
+                                    <input type="submit" value="Choose" class="btn btn-outline-info float-right">
+                                </div>
+                            <input type="hidden" value="{{ available_room.id }}" name="room_id">
+                            </div>
+                        </form>
+                    </div>
+                {% endfor %}
             </div>
-        </div>
-
-        <div class="row my-5">
-            {% for available_room in available_rooms %}
-                <div class="col-lg-4 mb-5">
-                    <form method="POST" action="{% url 'confirm' %}">{% csrf_token %}
-                        <div class="card shadow">
-                            <div class="card-body">
-                                <p class="card-title lead"><strong>{{ available_room.name }} room</strong></p>
-                                <p class="card-text">{{ available_room.description }}</p>
-                                <p class="card-text"><i class="fas fa-door-closed" style="color: #3bc4c0"></i> {{ available_room.number }}</p>
-                                <p class="card-text"><i class="fas fa-bed" style="color: #3bc4c0"></i> {{ available_room.type.name }}</p>
-                                <p class="card-text"><i class="fas fa-users" style="color: #3bc4c0"></i> {{ available_room.type.size }}</p>
-                                <p class="card-text"><i class="far fa-credit-card" style="color: #3bc4c0"></i> {{ available_room.price }}€ / night</p>
-                            </div>
-                            <div class="card-footer">
-                                <input type="submit" value="Choose" class="btn btn-outline-info float-right">
-                            </div>
-                        <input type="hidden" value="{{ available_room.id }}" name="room_id">
-                        </div>
-                    </form>
-                </div>
-            {% endfor %}
-        </div>
+        {% else %}
+            <h5 class="my-5 text-center font-italic"><i class="far fa-frown" style="color: crimson"></i> Sorry, there are no rooms available for those dates.</h5>
+        {% endif %}
     </div>
 {% endblock %}
